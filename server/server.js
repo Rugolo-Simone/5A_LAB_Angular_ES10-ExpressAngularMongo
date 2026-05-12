@@ -38,14 +38,14 @@ httpsServer.listen(PORT, "127.0.0.1", () => {
 // ============================================================
 //  MIDDLEWARE (funzioni eseguite ad ogni richiesta, in ordine)
 // ============================================================
-
+// CORS: abilita le richieste da origini diverse (es. Angular su porta 4200)
+app.use(cors());
 // Permette di leggere il body delle richieste in formato JSON
 app.use(bodyParser.json());
 // Permette di leggere il body in formato form-urlencoded (HTML form)
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// CORS: abilita le richieste da origini diverse (es. Angular su porta 4200)
-app.use(cors());
+
 
 // Middleware di LOG: registra ogni richiesta in arrivo
 app.use((req, res, next) => {
@@ -76,7 +76,13 @@ function sendError(res, code, message) {
 //  Esempio: app.get("/api/...", checkToken, (req,res) => { ... })
 // ============================================================
 function checkToken(req, res, next) {
-    
+    tokenAdministration.ctrlToken(req,(payload)=>{
+        if(payload.err_exp)
+            return sendError(res,403,payload.message);
+        req.tokenPayload = payload;
+        tokenAdministration.createToken(payload);
+        req.newToken=tokenAdministration.token;
+    });
 }
 
 // ============================================================

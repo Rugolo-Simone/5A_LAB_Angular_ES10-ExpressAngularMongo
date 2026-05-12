@@ -1,5 +1,6 @@
+<!--
 <div class="page-wrapper">
-  <!-- Navbar -->
+  &lt;!&ndash; Navbar &ndash;&gt;
   <nav class="navbar">
     <span class="navbar-brand">🎓 Gestione Studenti</span>
     <div class="navbar-right">
@@ -12,7 +13,7 @@
 
   <main class="main-content">
 
-    <!-- Messaggi -->
+    &lt;!&ndash; Messaggi &ndash;&gt;
     @if (successMessage) {
     <div class="alert-success">✅ {{ successMessage }}</div>
     }
@@ -20,7 +21,7 @@
     <div class="alert-error">⚠️ {{ errorMessage }}</div>
     }
 
-    <!-- Statistiche aggregate -->
+    &lt;!&ndash; Statistiche aggregate &ndash;&gt;
     @if (showStats) {
     <div class="stats-card">
       <h3>📊 Studenti per città (aggregate)</h3>
@@ -35,7 +36,7 @@
   </div>
     }
 
-    <!-- Barra azioni -->
+    &lt;!&ndash; Barra azioni &ndash;&gt;
     <div class="toolbar">
       <div class="search-group">
         <input
@@ -51,7 +52,7 @@
       <button class="btn-primary" (click)="nuovoStudente()">➕ Nuovo studente</button>
     </div>
 
-    <!-- Form inserimento / modifica -->
+    &lt;!&ndash; Form inserimento / modifica &ndash;&gt;
     @if (showForm) {
     <div class="form-card">
       <h3>{{ isEditing ? '✏️ Modifica studente' : '➕ Nuovo studente' }}</h3>
@@ -96,7 +97,7 @@
       </div>
     }
 
-    <!-- Lista studenti a card -->
+    &lt;!&ndash; Lista studenti a card &ndash;&gt;
     @if (loading) {
     <div class="loading">Caricamento in corso...</div>
     } @else if (students.length === 0) {
@@ -144,3 +145,4 @@
   </main>
 </div>
 
+-->

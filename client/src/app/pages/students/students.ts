@@ -28,10 +28,15 @@ export class Students implements OnInit{
     this.errorMessage="";
     this.http.getCall('/api/students').subscribe({
       next: (res) =>{
-
+        this.auth.saveToken(res.newToken);
+        this.students=res.data;
+        this.loading=false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
-
+        this.loading=false;
+        this.errorMessage="Errore nel caricamento degli studenti";
+        this.cdr.detectChanges();
       }
     });
   }

@@ -20,6 +20,23 @@ class TokenAdministration{
         );
         console.log(`Token creato correttamente per l'utente ${user.user}`);
     }
+
+    ctrlToken(req, callback){
+        const headerToken = req.headers["token"];
+        if(!headerToken)
+            return callback({err_exp:true, message:"Header token mancante"});
+        const token=headerToken.split(" ")[1];
+        if(!token || token === "null")
+            return callback({err_exp:true, message:"Token inesistente o corrotto"});
+        jwt.verify(token, this.privateKey, (err,data)=>{
+            if(!err){   // se non ho errori in data ci finisce il payload del token
+                this.payload = data;
+            }else{
+                this.payload = {err_exp:true, message:"Token presente ma scaduto o corrotto"};
+            }
+            callback(this.payload);
+        });
+    }
 }
 
 module.exports = new  TokenAdministration();
