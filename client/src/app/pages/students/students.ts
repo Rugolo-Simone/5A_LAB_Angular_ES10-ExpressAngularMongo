@@ -16,6 +16,7 @@ export class Students implements OnInit{
   constructor(private auth:Auth, private http:Httpcall,private router:Router,private cdr:ChangeDetectorRef) {  }
   loading:boolean=false;
   errorMessage:String = "";
+  successMessage:String = "";
   students: Student[] = [];
 
 

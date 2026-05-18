@@ -1,7 +1,6 @@
-<!--
 <div class="page-wrapper">
-  &lt;!&ndash; Navbar &ndash;&gt;
-  <nav class="navbar">
+  <!-- Navbar -->
+  <!--<nav class="navbar">
     <span class="navbar-brand">🎓 Gestione Studenti</span>
     <div class="navbar-right">
       <button class="btn-stats" (click)="caricaStatistiche()">
@@ -9,11 +8,11 @@
       </button>
       <button class="btn-logout" (click)="logout()">Esci</button>
     </div>
-  </nav>
+  </nav>-->
 
   <main class="main-content">
 
-    &lt;!&ndash; Messaggi &ndash;&gt;
+    <!-- Messaggi -->
     @if (successMessage) {
     <div class="alert-success">✅ {{ successMessage }}</div>
     }
@@ -21,7 +20,7 @@
     <div class="alert-error">⚠️ {{ errorMessage }}</div>
     }
 
-    &lt;!&ndash; Statistiche aggregate &ndash;&gt;
+    <!--&lt;!&ndash; Statistiche aggregate &ndash;&gt;
     @if (showStats) {
     <div class="stats-card">
       <h3>📊 Studenti per città (aggregate)</h3>
@@ -95,9 +94,9 @@
           <button class="btn-secondary" (click)="annulla()">Annulla</button>
         </div>
       </div>
-    }
+    }-->
 
-    &lt;!&ndash; Lista studenti a card &ndash;&gt;
+    <!-- Lista studenti a card -->
     @if (loading) {
     <div class="loading">Caricamento in corso...</div>
     } @else if (students.length === 0) {
@@ -122,22 +121,22 @@
         @if (s.interessi && s.interessi.length > 0) {
         <div class="interessi-list">
           @for (interesse of s.interessi; track interesse) {
-        <span class="badge-interesse">{{ interesse }}</span>
+            <span class="badge-interesse">{{ interesse }}</span>
         }
         </div>
         }
         @if (s.corsi && s.corsi.length > 0) {
         <div class="corsi-list">
           @for (corso of s.corsi; track corso.nome) {
-        <span class="badge-corso">{{ corso.nome }} <strong>{{ corso.voto }}</strong></span>
+            <span class="badge-corso">{{ corso.nome }} <strong>{{ corso.voto }}</strong></span>
         }
         </div>
         }
       </div>
-      <div class="card-footer">
+      <!--<div class="card-footer">
         <button class="btn-edit" (click)="modificaStudente(s)">✏️ Modifica</button>
         <button class="btn-delete" (click)="elimina(s)">🗑️ Elimina</button>
-      </div>
+      </div>-->
     </div>
     }
     </div>
@@ -145,4 +144,3 @@
   </main>
 </div>
 
--->
