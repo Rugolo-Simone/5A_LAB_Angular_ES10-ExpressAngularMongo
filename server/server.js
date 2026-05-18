@@ -82,6 +82,7 @@ function checkToken(req, res, next) {
         req.tokenPayload = payload;
         tokenAdministration.createToken(payload);
         req.newToken=tokenAdministration.token;
+        next();
     });
 }
 

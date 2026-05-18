@@ -30,6 +30,7 @@ export class Students implements OnInit{
       next: (res) =>{
         this.auth.saveToken(res.newToken);
         this.students=res.data;
+        console.log(this.students);
         this.loading=false;
         this.cdr.detectChanges();
       },
