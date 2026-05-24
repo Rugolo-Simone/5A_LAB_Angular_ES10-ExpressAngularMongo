@@ -1,0 +1,10 @@
+npm install -g @angular/cli
+
+ng new nome-del-progetto
+
+cd nome-del-progetto
+ng serve
+
+ng g component nome-componente
+
+ng g service services/nome-servizio
