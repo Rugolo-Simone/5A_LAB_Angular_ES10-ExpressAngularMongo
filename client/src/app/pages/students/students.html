@@ -1,7 +1,7 @@
 <div class="page-wrapper">
   <!-- Navbar -->
   <nav class="navbar">
-    <span class="navbar-brand">🎓 Gestione Studenti</span>
+    <span class="navbar-brand text-light">🎓 Gestione Studenti</span>
     <div class="navbar-right">
       <button class="btn-stats" (click)="caricaStatistiche()">
         📊 {{ showStats ? 'Nascondi' : 'Statistiche città' }}
@@ -20,19 +20,77 @@
     <div class="alert-error">⚠️ {{ errorMessage }}</div>
     }
 
+    <div class="toolbar">
+      <div class="search-group">
+        <input
+          type="text"
+          [(ngModel)]="filtroCognome"
+          placeholder="Cerca per cognome..."
+          class="search-input"
+          (keyup.enter)="cerca()"
+        />
+        <button class="btn-secondary" (click)="cerca()">🔍 Cerca</button>
+      </div>
+      <button class="btn-primary" (click)="nuovoStudente()">➕ Nuovo studente</button>
+    </div>
+
+    @if (showForm) {
+    <div class="form-card">
+        <h3>{{ isEditing ? '✏️ Modifica studente' : '➕ Nuovo studente' }}</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nome *</label>
+            <input type="text" [(ngModel)]="formData.nome" placeholder="Nome" />
+          </div>
+          <div class="form-group">
+            <label>Cognome *</label>
+            <input type="text" [(ngModel)]="formData.cognome" placeholder="Cognome" />
+          </div>
+          <div class="form-group">
+            <label>Età</label>
+            <input type="number" [(ngModel)]="formData.eta" placeholder="Età" min="0" />
+          </div>
+          <div class="form-group">
+            <label>Via</label>
+            <input type="text" [(ngModel)]="formData.indirizzo!.via" placeholder="Via e numero" />
+          </div>
+          <div class="form-group">
+            <label>Città</label>
+            <input type="text" [(ngModel)]="formData.indirizzo!['citta']" placeholder="Città" />
+          </div>
+          <div class="form-group">
+            <label>CAP</label>
+            <input type="text" [(ngModel)]="formData.indirizzo!.CAP" placeholder="CAP" />
+          </div>
+          <div class="form-group full-width">
+            <label>Interessi (separati da virgola)</label>
+            <input type="text" [(ngModel)]="interessiString" placeholder="es. musica, sport" />
+          </div>
+          <div class="form-group full-width">
+            <label>Corsi (formato: NomeCorso:voto, NomeCorso2:voto2)</label>
+            <input type="text" [(ngModel)]="corsiString" placeholder="es. Matematica:28, Fisica:30" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-primary" (click)="salva()">💾 Salva</button>
+          <button class="btn-secondary" (click)="annulla()">Annulla</button>
+        </div>
+      </div>
+    }
+
     <!--&lt;!&ndash; Statistiche aggregate &ndash;&gt;
     @if (showStats) {
-    <div class="stats-card">
-      <h3>📊 Studenti per città (aggregate)</h3>
-      <div class="stats-grid">
-        @for (stat of statistiche; track stat._id) {
-    <div class="stat-item">
-      <span class="stat-city">{{ stat._id || 'N/D' }}</span>
-      <span class="stat-count">{{ stat.totale }}</span>
+      <div class="stats-card">
+        <h3>📊 Studenti per città (aggregate)</h3>
+        <div class="stats-grid">
+          @for (stat of statistiche; track stat._id) {
+      <div class="stat-item">
+        <span class="stat-city">{{ stat._id || 'N/D' }}</span>
+        <span class="stat-count">{{ stat.totale }}</span>
+      </div>
+      }
+      </div>
     </div>
-    }
-    </div>
-  </div>
     }
 
     &lt;!&ndash; Barra azioni &ndash;&gt;
@@ -133,10 +191,10 @@
         </div>
         }
       </div>
-      <!--<div class="card-footer">
+      <div class="card-footer">
         <button class="btn-edit" (click)="modificaStudente(s)">✏️ Modifica</button>
         <button class="btn-delete" (click)="elimina(s)">🗑️ Elimina</button>
-      </div>-->
+      </div>
     </div>
     }
     </div>

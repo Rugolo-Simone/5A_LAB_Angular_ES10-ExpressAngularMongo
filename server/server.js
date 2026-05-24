@@ -147,6 +147,19 @@ app.post("/api/students/cerca", checkToken, (req, res) => {
 // ----------------------------------------------------------
 app.post("/api/students/cercaPerCognome", checkToken, (req, res) => {
     
+    if (!req.body.cognome) {
+        return sendError(res, 400, "Parametro 'cognome' mancante nel body della richiesta");
+    }
+
+    const query = { cognome: req.body.cognome };
+
+    mongoFunctions.find(DB, C_STUDENTS, query, (err, data) => {
+        if (err.codeErr == -1) {
+            res.send({ data: data, newToken: req.newToken });
+        } else {
+            sendError(res, err.codeErr, err.message);
+        }
+    });
 });
 
 // ----------------------------------------------------------
@@ -157,7 +170,19 @@ app.post("/api/students/cercaPerCognome", checkToken, (req, res) => {
 //  Risposta: { msg: "Studente inserito", id: "..." }
 // ----------------------------------------------------------
 app.post("/api/students/inserisci", checkToken, (req, res) => {
-    
+    if (!req.body) {
+        return sendError(res, 400, "Parametro 'body' mancante nel body della richiesta");
+    }
+
+    const query = { nome: req.body.nome, cognome: req.body.cognome, eta: req.body.eta, indirizzo: req.body.indirizzo, corsi: req.body.corsi, interessi: req.body.interessi };
+
+    mongoFunctions.insert(DB, C_STUDENTS, query, (err, data) => {
+        if (err.codeErr == -1) {
+            res.send({ data: data, newToken: req.newToken });
+        } else {
+            sendError(res, err.codeErr, err.message);
+        }
+    });
 });
 
 // ----------------------------------------------------------
@@ -169,7 +194,35 @@ app.post("/api/students/inserisci", checkToken, (req, res) => {
 //  lasciando intatti tutti gli altri campi del documento.
 // ----------------------------------------------------------
 app.post("/api/students/modifica", checkToken, (req, res) => {
-    
+    if (!req.body || Object.keys(req.body).length === 0) {
+        return sendError(res, 400, "Dati dello studente mancanti nel corpo della richiesta");
+    }
+
+    const query = { 
+        nome: req.body.nome, 
+        cognome: req.body.cognome 
+    };
+
+    if (!query.nome || !query.cognome) {
+        return sendError(res, 400, "Campi 'nome' o 'cognome' mancanti per identificare lo studente");
+    }
+
+    const updateData = {
+        $set: {
+            eta: req.body.eta,
+            indirizzo: req.body.indirizzo,
+            corsi: req.body.corsi,
+            interessi: req.body.interessi
+        }
+    };
+
+    mongoFunctions.update(DB, C_STUDENTS, query, updateData, (err, data) => {
+        if (err.codeErr == -1) {
+            res.send({ data: data, newToken: req.newToken });
+        } else {
+            sendError(res, err.codeErr, err.message);
+        }
+    });
 });
 
 // ----------------------------------------------------------
@@ -179,7 +232,26 @@ app.post("/api/students/modifica", checkToken, (req, res) => {
 //  Body: { "nome": "Mario", "cognome": "Rossi" }
 // ----------------------------------------------------------
 app.post("/api/students/elimina", checkToken, (req, res) => {
-    
+    if (!req.body || Object.keys(req.body).length === 0) {
+        return sendError(res, 400, "Dati dello studente mancanti nel corpo della richiesta");
+    }
+
+    const query = { 
+        nome: req.body.nome, 
+        cognome: req.body.cognome 
+    };
+
+    if (!query.nome || !query.cognome) {
+        return sendError(res, 400, "Campi 'nome' o 'cognome' mancanti");
+    }
+
+    mongoFunctions.delete(DB, C_STUDENTS, query, (err, data) => {
+        if (err.codeErr == -1) {
+            res.send({ data: data, newToken: req.newToken });
+        } else {
+            sendError(res, err.codeErr, err.message);
+        }
+    });
 });
 
 // ----------------------------------------------------------
